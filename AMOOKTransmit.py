@@ -59,7 +59,7 @@ if(results.fullBin is not False):
 	fullKey = makeKeyFull(results.fullBin,True)
 
 d.makePktFLEN(len(fullKey))
-print "Transmitting..."
+print("Transmitting...")
 sendKey(fullKey,results.repeatTimes)
-print "Done."
+print("Done.")
 d.setModeIDLE()

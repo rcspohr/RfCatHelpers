@@ -3,43 +3,39 @@ import sys
 from struct import *
 from collections import Counter
 
-track=wave.open(sys.argv[1])
-frames=track.getnframes()
-n= 0
-max= 0
-samples= []
+track = wave.open(sys.argv[1])
+frames = track.getnframes()
+n = 0
+max = 0
+samples = []
 keylen = 12
-avg = 0;
-
-print "number of frames: {}".format(frames)
-
-while n < frames:
-	n += 1
-	current = 0
-        frame = track.readframes(1)
-
-        if len(frame) != 2 and len(frame) != 4:
-            continue
-
-        left_channel = frame[:2]
-
-	current= unpack("<h",left_channel)[0]
-	if current > max:
-		max= current;
-	samples.append(current)
-
-
-avg = sum(samples) / len(samples)
-avg = avg + (max/100) + 100
-
-print "Max: ",str(max),"Average: ",str(avg)
-
-
-peaks= []
+avg = 0
+peaks = []
 foundKeys = []
 sPeak = 0 #startPeak
 ePeak = 0 #endPeak
 minPeakDistance = 1 #minimum peak distance
+tmpBin = ""
+
+print(f"number of frames: {frames}")
+while n < frames:
+	n += 1
+	current = 0
+	frame = track.readframes(1)
+
+	if len(frame) != 2 and len(frame) != 4:
+		continue
+
+	left_channel = frame[:2]
+	current = unpack("<h",left_channel)[0]
+	if current > max:
+		max= current;
+	samples.append(current)
+
+avg = sum(samples) / len(samples)
+avg = avg + (max/100) + 100
+
+print(f"Max: {str(max)} Average: {str(avg)}")
 
 for currFrame in range(0,len(samples)):
 	if(samples[currFrame] > avg):
@@ -59,10 +55,9 @@ n = 0
 #avgPeakLen = sum([p['d'] for p in peaks]) / len(peaks)
 avgPeakLen = sum([peaks[i+1]['s'] - p['e'] for i, p in enumerate(peaks) if i < len(peaks) - 1])/(i + 1)
 avgPeakLen = avgPeakLen * 3
-print "avgpl:",avgPeakLen
-print "len Peaks",len(peaks)
+print(f"Average Peak Length: {avgPeakLen}")
+print(f"Length of peaks: {len(peaks)}")
 
-tmpBin = ""
 while n < len(peaks):
 	#if(peaks[n]["d"] > avgPeakLen and len(currentSeg) > 0):
 	if(n > 1):
@@ -83,7 +78,7 @@ while n < len(peaks):
 		currentSeg = []
 	else:
 		currentSeg.append(peaks[n]["d"])
-	n= n + 1
+	n += 1
 
 #leftovers
 if (len(currentSeg) > 0):
@@ -94,15 +89,13 @@ if (len(currentSeg) > 0):
 		else:
 			tmpBin += "1"
 	foundKeys.append(tmpBin)
-	tmpBin = "";
+	tmpBin = ""
 
 keyList = Counter(foundKeys)
-print "\n\n(Top)Found Keys:"
+print("\n\n(Top)Found Keys:")
 
-
-	
 x = 0
 for k, v in keyList.most_common(10):
 	if (len(k) > 2 and int(k,2) != 0):
 		x+=1
-		print x,":",k,"(",v,") - len:",len(k), "Hex:",hex(int(k,2))
+		print(f"{x}: {k} ({v}) - len: {len(k)} Hex: {hex(int(k,2))}")

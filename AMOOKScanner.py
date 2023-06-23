@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python3.10
 
 import sys
 from rflib import *
@@ -7,7 +7,7 @@ import time
 import argparse
 
 
-parser = argparse.ArgumentParser(description='Application to use a RFCat compatible device to listen and calculate binary of a transmitted signal',version="0.1-bricktop")
+parser = argparse.ArgumentParser(description='Application to use a RFCat compatible device to listen and calculate binary of a transmitted signal')
 parser.add_argument('-f', action="store", default="433880000", dest="baseFreq",help='Target frequency to listen for remote (default 433880000)',type=int)
 parser.add_argument('-i', action="store", default="24000", dest="chanWidth",help='Width of each channel (lowest being 24000 -- default)',type=int)
 parser.add_argument('-b', action="store", dest="baudRate",default=4800,help='Baudrate, defaults to 4800',type=int)
@@ -35,7 +35,7 @@ stored_codes = []
 
 
 start = time.time()
-print "Starting scan..."
+print("Starting scan...")
 while True:
 	try:
 		
@@ -58,17 +58,17 @@ while True:
 			possibleStrings = sampleString.split(zeroPaddingString)
 			possibleStrings = [s.strip("0") for s in possibleStrings]
 			if(results.verbose == True):
-				print "Possible codes found (-vv):"
-				print "---------------------------"
-				print possibleStrings
+				print("Possible codes found (-vv):")
+				print("---------------------------")
+				print(possibleStrings)
 			
 			for s in possibleStrings:
 				if(len(s) > 5):
 					allstrings.append(s)
 			
 			if(results.verbose == True):
-				print "Binary for codes found (-vv):"
-				print "---------------------------"
+				print("Binary for codes found (-vv):")
+				print("---------------------------")
 				
 			if(len(allstrings) > 0):
 				lengths = [len(i) for i in allstrings]
@@ -77,12 +77,12 @@ while True:
 				for a in allstrings:
 					if(len(a) == most_common_length):
 						if(results.verbose == True):
-							print str(bin(int(a,16))[2:])
+							print(str(bin(int(a,16))[2:]))
 						binaryKeys.append(bin(int(a,16))[2:])
 					else:
 						if(len(a) -1 == most_common_length):
 							if(results.verbose == True):
-								print str(bin(int(a,16))[2:-1])
+								print(str(bin(int(a,16))[2:-1]))
 							binaryKeys.append(bin(int(a,16))[2:-1])
 
 				maxlen = len(max(binaryKeys, key=len))
@@ -91,7 +91,7 @@ while True:
 					if(len(binaryKeys[i]) < maxlen):
 						binaryKeys[i] = binaryKeys[i] + ("0" * (maxlen - len(binaryKeys[i])))
 				
-				print "Possible Signals:" + str(len(allstrings))
+				print(f"Possible Signals: {str(len(allstrings))}")
 				finalKey = "";
 				for charPos in range(0,maxlen):
 					total = 0;
@@ -102,18 +102,16 @@ while True:
 						finalKey += "1"
 					else:
 						finalKey += "0"
-				print "Calculated Key (bin): " + finalKey
-				print "--------"
+				print(f"Calculated Key (bin): {finalKey}")
+				print("--------")
 
 	except ChipconUsbTimeoutException:
 		pass
 	except KeyboardInterrupt:
 		d.setModeIDLE()
-		print "bye."
+		print("bye.")
 		sys.exit()
 		pass
 d.setModeIDLE()
-print "bye."
+print("bye.")
 sys.exit()
-
-
