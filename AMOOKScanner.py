@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.10
+#!/usr/bin/python3.11
 
 import sys
 from rflib import *
@@ -92,9 +92,9 @@ while True:
 						binaryKeys[i] = binaryKeys[i] + ("0" * (maxlen - len(binaryKeys[i])))
 				
 				print(f"Possible Signals: {str(len(allstrings))}")
-				finalKey = "";
+				finalKey = ""
 				for charPos in range(0,maxlen):
-					total = 0;
+					total = 0
 					for i in range(0,len(binaryKeys)):
 						thisChar = binaryKeys[i][charPos]
 						total += int(thisChar)

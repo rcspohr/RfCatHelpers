@@ -29,7 +29,7 @@ while n < frames:
 	left_channel = frame[:2]
 	current = unpack("<h",left_channel)[0]
 	if current > max:
-		max= current;
+		max= current
 	samples.append(current)
 
 avg = sum(samples) / len(samples)
@@ -74,7 +74,7 @@ while n < len(peaks):
 				tmpBin += "1"
 		foundKeys.append(tmpBin)
 		#print tmpBin
-		tmpBin = "";
+		tmpBin = ""
 		currentSeg = []
 	else:
 		currentSeg.append(peaks[n]["d"])

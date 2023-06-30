@@ -21,12 +21,12 @@ def makeKey(key,large = True):
          x = x + "0"
         pwm_str_key = pwm_str_key + x
     key_packed = bitstring.BitArray(bin=pwm_str_key).tobytes()
-    return key_packed;
+    return key_packed
 	
 def makeKeyFull(key,large = True):
     pwm_str_key = key
     key_packed = bitstring.BitArray(bin=pwm_str_key).tobytes()
-    return key_packed;
+    return key_packed
 
 def sendKey(key,num):
     for i in range(0,num):

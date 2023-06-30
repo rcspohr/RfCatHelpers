@@ -19,7 +19,7 @@ RFST_SRX            =           0x02
 
 keyLen = 0
 baudRate = 4800
-leaveLoop = False;
+leaveLoop = False
 
 def startJam(rfcatInstance,rfcatjamFreq):
 	rfcatInstance.setMaxPower()
@@ -49,7 +49,7 @@ results = parser.parse_args()
 
 baseFreq = results.baseFreq
 jamDistance = results.jamOffset
-rssi_minimum_for_signal = results.minStrength;
+rssi_minimum_for_signal = results.minStrength
 count = results.count
 inc = results.chanWidth
  
@@ -71,7 +71,7 @@ configure(d2)
 halfwayFreq = baseFreq + ((count * (inc/2)) / 2)
 
 start = time.time()
-startJam(d2,halfwayFreq);
+startJam(d2,halfwayFreq)
 end = time.time()
 print(end - start)
 time.sleep(1)
