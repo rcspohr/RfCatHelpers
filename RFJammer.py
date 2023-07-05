@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys
 import datetime as dt
 from rflib import *
